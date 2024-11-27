@@ -11,6 +11,7 @@ use SleekDB\Exceptions\InvalidConfigurationException;
 use SleekDB\Exceptions\IOException;
 use SleekDB\Exceptions\JsonException;
 
+// @codeCoverageIgnoreStart
 // To provide usage without composer, we need to require all files.
 if(false === class_exists("\Composer\Autoload\ClassLoader")) {
     foreach (glob(__DIR__ . '/Exceptions/*.php') as $exception) {
@@ -26,6 +27,7 @@ if(false === class_exists("\Composer\Autoload\ClassLoader")) {
         require_once $class;
     }
 }
+// @codeCoverageIgnoreEnd
 
 class Store
 {
@@ -93,7 +95,7 @@ class Store
    * @throws InvalidArgumentException
    * @throws InvalidConfigurationException
    */
-  public function changeStore(string $storeName, string $databasePath = null, array $configuration = []): Store
+  public function changeStore(string $storeName, ?string $databasePath = null, array $configuration = []): Store
   {
     if(empty($databasePath)){
       $databasePath = $this->getDatabasePath();
@@ -219,7 +221,7 @@ class Store
    * @throws IOException
    * @throws InvalidArgumentException
    */
-  public function findAll(array $orderBy = null, int $limit = null, int $offset = null): array
+  public function findAll(?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
   {
     $qb = $this->createQueryBuilder();
     if(!is_null($orderBy)){
@@ -258,14 +260,14 @@ class Store
   /**
    * Retrieve one or multiple documents.
    * @param array $criteria
-   * @param array $orderBy
-   * @param int $limit
-   * @param int $offset
+   * @param array|null $orderBy
+   * @param int|null $limit
+   * @param int|null $offset
    * @return array
    * @throws IOException
    * @throws InvalidArgumentException
    */
-  public function findBy(array $criteria, array $orderBy = null, int $limit = null, int $offset = null): array
+  public function findBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
   {
     $qb = $this->createQueryBuilder();
 
@@ -582,7 +584,7 @@ class Store
    * @throws IOException
    * @throws InvalidArgumentException
    */
-  public function search(array $fields, string $query, array $orderBy = null, int $limit = null, int $offset = null): array
+  public function search(array $fields, string $query, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
   {
 
     $qb = $this->createQueryBuilder();
